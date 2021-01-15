@@ -4,13 +4,17 @@ import './index.less'
 import MenuConfig from '../../resource/menuConfig'
 import { Menu, Icon } from 'antd'
 import { Scrollbars } from 'react-custom-scrollbars' // 滚动条插件
-import {Link} from 'react-router-dom'
+import {Link,withRouter } from 'react-router-dom'
 const { SubMenu } = Menu
+
+const rootSubmenuKeys = ['/ui', '/table', '/form','/charts'];// 父级菜单
 
 class NavLeft extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      openKeys:[]
+    }
   }
   // 生命周期 componentWillMount()=>旧版本，react 16.4不会报warning
   UNSAFE_componentWillMount() {
@@ -19,12 +23,34 @@ class NavLeft extends Component {
     this.setState({
       menuTreeNode: menuTreeNode
     })
+
+    //页面刷新后保持二级路由菜单高亮显示
+    // const pathName = this.props.location.pathname
+    // const newPathName = `/${pathName.split('/')[1]}`
+    // this.setState({
+    //   openKeys: [newPathName]
+    // })
   }
 
   handleClick = e => {
     console.log('click', e)
   }
-
+  
+  // 只展开点击的父级菜单
+  onOpenChange = e => {
+    console.log(e)
+    const {openKeys} = this.state
+    const latestOpenKey = e.find(key => openKeys.indexOf(key) === -1);
+    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      this.setState({
+        openKeys:e
+      })
+    } else {
+      this.setState({
+        openKeys:latestOpenKey ? [latestOpenKey] : []
+      })
+    }
+  }
   // 菜单渲染
   renderMenu = (data) => {
     // 遍历菜单
@@ -50,6 +76,7 @@ class NavLeft extends Component {
   }
 
   render() {
+    const {openKeys} = this.state
     return (
       <Scrollbars>
         <div className="navLeft">
@@ -59,7 +86,7 @@ class NavLeft extends Component {
             <h1 style={{ visibility: (this.props.collapsed) ? 'hidden' : 'visible'}}>React MS</h1>
           </div>
           {/* 菜单 theme:dart主题为深色 submenu包裹的说明有子节点，直接Menu.item说明没有子菜单了*/}
-          <Menu theme="dark" onClick={this.handleClick} mode="inline" defaultSelectedKeys={['/']}>
+          <Menu theme="dark" openKeys={openKeys} onOpenChange={this.onOpenChange} onClick={this.handleClick} mode="inline" defaultSelectedKeys={[this.props.history.location.pathname]} selectedKeys={[this.props.history.location.pathname]}>
             {/* 一开始进来时先遍历菜单，存到state里，然后这边获取 */}
             {this.state.menuTreeNode}
           </Menu>
@@ -69,4 +96,4 @@ class NavLeft extends Component {
   }
 }
 
-export default NavLeft;
+export default withRouter(NavLeft);
