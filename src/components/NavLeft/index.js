@@ -4,6 +4,7 @@ import './index.less'
 import MenuConfig from '../../resource/menuConfig'
 import { Menu, Icon } from 'antd'
 import { Scrollbars } from 'react-custom-scrollbars' // 滚动条插件
+import {Link} from 'react-router-dom'
 const { SubMenu } = Menu
 
 class NavLeft extends Component {
@@ -39,8 +40,10 @@ class NavLeft extends Component {
       // 如果没有子节点，直接父级菜单
       return (
         <Menu.Item key={item.key}>
+          <Link to={item.key}>
           <Icon type="user" />
           <span>{item.title}</span>
+          </Link>
         </Menu.Item>
       )
     })
@@ -56,7 +59,7 @@ class NavLeft extends Component {
             <h1 style={{ visibility: (this.props.collapsed) ? 'hidden' : 'visible'}}>React MS</h1>
           </div>
           {/* 菜单 theme:dart主题为深色 submenu包裹的说明有子节点，直接Menu.item说明没有子菜单了*/}
-          <Menu theme="dark" onClick={this.handleClick} mode="inline" defaultSelectedKeys={['/admin/home']}>
+          <Menu theme="dark" onClick={this.handleClick} mode="inline" defaultSelectedKeys={['/']}>
             {/* 一开始进来时先遍历菜单，存到state里，然后这边获取 */}
             {this.state.menuTreeNode}
           </Menu>
