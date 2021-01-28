@@ -13,9 +13,37 @@ class NavLeft extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openKeys:[]
+      openKeys:[],
+      // selectedKeys:[]
     }
   }
+
+  componentDidMount() {
+    // 防止页面刷新侧边栏又初始化了
+    debugger
+    const pathname = this.props.location.pathname
+    //获取当前所在的目录层级
+    // const rank = pathname.split('/')
+    // switch (rank.length) {
+    //   case 2 :  //一级目录
+    //     // this.setState({
+    //     //   selectedKeys: [pathname]
+    //     // })
+    //     break;
+    //   case 5 : //三级目录，要展开两个subMenu
+    //     this.setState({
+    //       // selectedKeys: [pathname],
+    //       openKeys: [rank.slice(0, 3).join('/'), rank.slice(0, 4).join('/')]
+    //     })
+    //     break;
+    //   default :
+        this.setState({
+          // selectedKeys: [pathname],
+          openKeys: [pathname.substr(0, pathname.lastIndexOf('/'))]
+        })
+    // }
+  }
+
   // 生命周期 componentWillMount()=>旧版本，react 16.4不会报warning
   UNSAFE_componentWillMount() {
     console.log(MenuConfig)
@@ -23,13 +51,6 @@ class NavLeft extends Component {
     this.setState({
       menuTreeNode: menuTreeNode
     })
-
-    //页面刷新后保持二级路由菜单高亮显示
-    // const pathName = this.props.location.pathname
-    // const newPathName = `/${pathName.split('/')[1]}`
-    // this.setState({
-    //   openKeys: [newPathName]
-    // })
   }
 
   handleClick = e => {
@@ -40,6 +61,7 @@ class NavLeft extends Component {
   onOpenChange = e => {
     console.log(e)
     const {openKeys} = this.state
+    debugger
     const latestOpenKey = e.find(key => openKeys.indexOf(key) === -1);
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       this.setState({
