@@ -2,9 +2,10 @@
 import React, { Component } from 'react'
 import './index.less'
 import MenuConfig from '../../resource/menuConfig'
-import { Menu, Icon } from 'antd'
+import { Menu } from 'antd'
 import { Scrollbars } from 'react-custom-scrollbars' // 滚动条插件
 import {Link,withRouter } from 'react-router-dom'
+import { MailOutlined, UserOutlined} from '@ant-design/icons';
 const { SubMenu } = Menu
 
 const rootSubmenuKeys = ['/ui', '/table', '/form','/charts'];// 父级菜单
@@ -79,7 +80,7 @@ class NavLeft extends Component {
     return data.map((item) => {
       if (item.children) {// 如果有子节点children，就用submenu包裹起来,遍历子节点里的菜单
         return (
-          <SubMenu title={<span><Icon type="mail" /><span>{item.title}</span></span>} key={item.key}>
+          <SubMenu title={<span><MailOutlined /><span>{item.title}</span></span>} key={item.key}>
             {/* // 再次遍历 */}
             {this.renderMenu(item.children)}
           </SubMenu>
@@ -89,7 +90,7 @@ class NavLeft extends Component {
       return (
         <Menu.Item key={item.key}>
           <Link to={item.key}>
-          <Icon type="user" />
+          <UserOutlined />
           <span>{item.title}</span>
           </Link>
         </Menu.Item>

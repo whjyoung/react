@@ -39,9 +39,11 @@ class ModalUI extends Component {
           </Button>
           <Button type="primary" onClick={() => this.handleOpen("showModal3")}>
             顶部20px弹框
+            {/* style={{ top: 320 }} */}
           </Button>
           <Button type="primary" onClick={() => this.handleOpen("showModal4")}>
             水平垂直剧中
+          {/* centered */}
           </Button>
         </Card>
         {/* 默认弹框 */}
@@ -59,6 +61,7 @@ class ModalUI extends Component {
         </Modal>
         {/* 自定义页脚 */}
         <Modal
+          style={{ top: 320 }}
           title="React"
           visible={this.state.showModal2}
           onOk={() => this.handleOk("showModal2")}

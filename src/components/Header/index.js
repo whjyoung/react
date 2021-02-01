@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment' //日期格式化控件
-import { Row, Col, Divider, Icon } from 'antd'
+import { Row, Col, Divider } from 'antd'
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import axios from '../../axios/index' //jsonp axios请求天气
 import './index.less'
 
@@ -62,12 +63,9 @@ class Header extends Component {
         {/* 头部下侧内容：面包屑导航栏&天气信息 */}
         <Row className="breadCrumb">
           <Col span={4}>
-            <Icon
-              className="trigger"
-              // 接收父组件里传过来的值
-              type={this.props.collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
-            />
+            <span onClick={this.toggle} style={{ marginBottom: 16 }}>
+              {this.props.collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
+            </span>
             <span className="breadCrumb_title">首页</span>
           </Col>
           <Col span={20} className="weather">
